@@ -71,6 +71,7 @@ dependencies:
   - perl-extutils-makemaker=7.64=pl5321hd8ed1ab_0
   - perl-file-path=2.18=pl5321hd8ed1ab_0
   - perl-file-spec=3.48_01=pl5321hdfd78af_2
+  - perl-file-tee=0.07=pl5321hdfd78af_2
   - perl-file-temp=0.2304=pl5321hd8ed1ab_0
   - perl-html-parser=3.78=pl5321h9f5acd7_0
   - perl-html-tagset=3.20=pl5321hdfd78af_4
