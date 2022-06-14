@@ -239,8 +239,8 @@ close LOG;
 
 
 
-print "Finished!!\n";
-
+print "Start Evomining Finished!!\n";
+print "\nNext, run: perl heatplot.pl evalue=0.0001 score=100 Submit=Submit\n\n";
 
 
 

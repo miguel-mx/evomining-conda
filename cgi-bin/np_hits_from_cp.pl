@@ -530,6 +530,15 @@ print qq| </form> |;
 untie %NombresPorNum;
 #exit(1);
 system("chmod 777 $OUTPUT_PATH/EvoMining.log");
+
+print "\n\n-----------------------------------------------------------------------------\n\n";
+print "\nnp_hits_from.pl Finished!!!\n\n";
+print "Next, run: \n";
+print "perl align_shave_tree.pl clave_2=on clave_1=on pidfecha=../exchange/ALL_curado.fasta_MiBIG_DB.faa_los17 Submit=Submit\n";
+print "\n\n NOTE: clave_1 and clave_2 are optional...\n\n";
+print "\n\n-----------------------------------------------------------------------------\n\n";
+
+
 open (LOG, ">>$OUTPUT_PATH/EvoMining.log") or die " not open $OUTPUT_PATH/EvoMining.log $!";
 print LOG "np_hits_from_cp\tDONE\n";
 close LOG;

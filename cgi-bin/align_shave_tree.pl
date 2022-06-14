@@ -150,7 +150,7 @@ foreach my $cc (@dat){
  #chdir "$OUTPUT_PATH/blast/";
 my $dir=`pwd`;
   print LOG "Dir $dir\n/opt/Gblocks_0.91b/Gblocks ../$cc\gap.aln.out -b4=5 -b5=H -b3=10>LOG$cc.GBLOCks\n";
-    system("/var/www/html/EvoMining/cgi-bin/Gblocks ../$cc\gap.aln.out -b4=5 -b5=H -b3=10>../LOG$cc.GBLOCks");
+    system("Gblocks ../$cc\gap.aln.out -b4=5 -b5=H -b3=10>../LOG$cc.GBLOCks");
    # system "sudo Gblocks $cc\gap.aln.out -b4=5 -b5=H -b3=10>LOG$cc.GBLOCks";
 # chdir "$OUTPUT_PATH/blast/seqf";
   #------------------------------------------------------------------------------
@@ -188,7 +188,7 @@ foreach my $cc (@dat){
  chdir "$OUTPUT_PATH/blast/seqf/";
 ###########weekend############### 
 #system "$reformatPATH/esl-reformat --informat afa stockholm ../$cc\gap.aln.out-gb2 >$cc.stock";
-system "perl /var/www/html/EvoMining/cgi-bin/converter.pl  $OUTPUT_PATH/blast/$cc\gap.aln.out-gb2 >$cc.stockLOG";
+system "perl converter.pl  $OUTPUT_PATH/blast/$cc\gap.aln.out-gb2 >$cc.stockLOG";
 #CON SEQFIRE #system "/opt/hmmer-3.1b1-linux-intel-x86_64/binaries/esl-reformat --informat afa stockholm $cc\gap\_2_short.fasta >$cc.stock";
 #system " /opt/hmmer-3.1b1-linux-intel-x86_64/binaries/esl-reformat --informat afa stockholm 4_2_short.fasta > probeWEB.stock";
 }
@@ -219,7 +219,7 @@ foreach my $cc (@dat){
  ###########weekend###############  
 # system "/opt/quicktree/quicktree_1.1/bin/quicktree -in a -out t -boot 10000 $OUTPUT_PATH/blast/$cc\gap.aln.out-gb2.stock > $OUTPUT_PATH/blast/seqf/tree/$cc.tree";
  #print "/opt/fasttree/FastTree $OUTPUT_PATH/blast/$cc\gap.aln.out-gb2 > $OUTPUT_PATH/blast/seqf/tree/$cc.tree <br>";
- system "/opt/fasttree/FastTree $OUTPUT_PATH/blast/$cc\gap.aln.out-gb2 > $OUTPUT_PATH/blast/seqf/tree/$cc.tree0";
+ system "FastTree $OUTPUT_PATH/blast/$cc\gap.aln.out-gb2 > $OUTPUT_PATH/blast/seqf/tree/$cc.tree0";
  system("nw_reroot $OUTPUT_PATH/blast/seqf/tree/$cc.tree0 \$(nw_labels $OUTPUT_PATH/blast/seqf/tree/$cc.tree0 |grep CENTRAL|sort -g |head -n1)  > $OUTPUT_PATH/blast/seqf/tree/$cc.tree");
  #########weekend######### 
  system "nw_distance -n $OUTPUT_PATH/blast/seqf/tree/$cc.tree > $OUTPUT_PATH/blast/seqf/tree/distance.$cc";

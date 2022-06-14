@@ -1,102 +1,103 @@
-#!/usr/bin/perl -w
-#####################################################
-# CODIGO PARA UPLOAD-FILE
-#
-#####################################################
+	#!/usr/bin/perl -w
+	#####################################################
+	# CODIGO PARA UPLOAD-FILE
+	#
+	#####################################################
 
-#use strict;
-use CGI::Carp qw(fatalsToBrowser);
-use CGI;
-use Statistics::Basic qw(:all);
-use globals;
-use IO::Tee; 
+	#use strict;
+	use CGI::Carp qw(fatalsToBrowser);
+	use CGI;
+	use Statistics::Basic qw(:all);
+	use globals;
+	use IO::Tee; 
 
-############################## def-DBM #################################
-use Fcntl ; use DB_File ; $tipoDB = "DB_File" ; $RWC = O_CREAT|O_RDWR
-;
-############################## def-SUB  ################################
-my $tfm2 = "$OUTPUT_PATH/mi_hashNUMVia.db" ;
-$hand2 = tie my %hashNUMVia, $tipoDB , "$tfm2" , $RWC , 0644 ;
-print "$! \nerror tie para $tfm2 \n" if ($hand2 eq "");
-
-
-my $apacheCGIpath=$APACHE_CGI_PATH; #From globals
-my $genomes=$GENOMES; #from globals
-my $blast_file=$BLAST_FILE; #from globals
-#$apacheCGIpath="/home/evoMining/newevomining"; #evom-0-3ORIG.pl
-;
-#los diez
-#--- Generados con /var/www/newevomining/DB/reparaHEADER.pl------------------ 
-my $tfm1A = $TFM1A; 	#From globals
-
-#my $tfm1A = "hashOrdenNombres1_10.db" ;#evom-0-3ORIG.pl
-
-$hand1A = tie my %hashNOMBRES, $tipoDB , "$tfm1A" , 0 , 0644 ;
-print "$! \nerror tie para $tfm1A \n" if ($hand1A eq "");##
-
-my $tfm2A = $TFM2A; 	#From globals
-#my $tfm2A = "hashOrdenNombres2_10.db" ;#evom-0-3ORIG.pl
-$hand2A = tie my %hashOrdenNOMBRES, $tipoDB , "$tfm2A" , 0 , 0644 ;
-#print "$! \nerror tie para $tfm2A \n" if ($hand2A eq "");
-
-my $tfm3A = $TFM3A; 	#From globals
-#my $tfm3A = "hashOrdenNombres3_10.db" ;#evom-0-3ORIG.pl
-
-$hand3A = tie my %hashOrdenNOMBRES2, $tipoDB , "$tfm3A" , 0 , 0644 ;
-print "$! \nerror tie para $tfm3A \n" if ($hand3A eq "");
-#-----------
-
-my %Input;
-open (STDOUT, "| tee $OUTPUT_PATH/heatplot.html") or die "Teeing off: $!\n";
-
-my $query = new CGI;
-print $query->header,
-      $query->start_html(-style => {-src => '/EvoMining/html/css/tabla.css'} );
-my @pairs = $query->param;
-
-foreach my $pair(@pairs){
-$Input{$pair} = $query->param($pair);
-}	
-
-#print "AQUI $blast_file<br>";
-
-#--------------------------------------
-$date = `date`;
-@divDate=split(/ /,$date);
+	############################## def-DBM #################################
+	use Fcntl ; use DB_File ; $tipoDB = "DB_File" ; $RWC = O_CREAT|O_RDWR
+	;
+	############################## def-SUB  ################################
+	my $tfm2 = "$OUTPUT_PATH/mi_hashNUMVia.db" ;
+	$hand2 = tie my %hashNUMVia, $tipoDB , "$tfm2" , $RWC , 0644 ;
+	print "$! \nerror tie para $tfm2 \n" if ($hand2 eq "");
 
 
-chomp($OUTPUT_PATH);
+	my $apacheCGIpath=$APACHE_CGI_PATH; #From globals
+	my $genomes=$GENOMES; #from globals
+	my $blast_file=$BLAST_FILE; #from globals
+	#$apacheCGIpath="/home/evoMining/newevomining"; #evom-0-3ORIG.pl
+	;
+	#los diez
+	#--- Generados con /var/www/newevomining/DB/reparaHEADER.pl------------------ 
+	my $tfm1A = $TFM1A; 	#From globals
+
+	#my $tfm1A = "hashOrdenNombres1_10.db" ;#evom-0-3ORIG.pl
+
+	$hand1A = tie my %hashNOMBRES, $tipoDB , "$tfm1A" , 0 , 0644 ;
+	print "$! \nerror tie para $tfm1A \n" if ($hand1A eq "");##
+
+	my $tfm2A = $TFM2A; 	#From globals
+	#my $tfm2A = "hashOrdenNombres2_10.db" ;#evom-0-3ORIG.pl
+	$hand2A = tie my %hashOrdenNOMBRES, $tipoDB , "$tfm2A" , 0 , 0644 ;
+	#print "$! \nerror tie para $tfm2A \n" if ($hand2A eq "");
+
+	my $tfm3A = $TFM3A; 	#From globals
+	#my $tfm3A = "hashOrdenNombres3_10.db" ;#evom-0-3ORIG.pl
+
+	$hand3A = tie my %hashOrdenNOMBRES2, $tipoDB , "$tfm3A" , 0 , 0644 ;
+	print "$! \nerror tie para $tfm3A \n" if ($hand3A eq "");
+	#-----------
+
+	my %Input;
+	open (STDOUT, "| tee $OUTPUT_PATH/heatplot.html") or die "Teeing off: $!\n";
+
+	my $query = new CGI;
+	print $query->header,
+	      $query->start_html(-style => {-src => '../html/css/tabla.css'} );
+	my @pairs = $query->param;
+
+	foreach my $pair(@pairs){
+	$Input{$pair} = $query->param($pair);
+	}	
+
+	#print "AQUI $blast_file<br>";
+
+	#--------------------------------------
+	$date = `date`;
+	@divDate=split(/ /,$date);
+
+
+	chomp($OUTPUT_PATH);
 
 
 
-#$la="$OUTPUT_PATH/blast/seqf/tree";
-#system "mkdir -p $OUTPUT_PATH/blast/seqf/tree";
-system "mkdir -p $OUTPUT_PATH/FASTASparaNP";
-system "mkdir -p $OUTPUT_PATH/NewFASTASparaNP";
+	#$la="$OUTPUT_PATH/blast/seqf/tree";
+	#system "mkdir -p $OUTPUT_PATH/blast/seqf/tree";
+	system "mkdir -p $OUTPUT_PATH/FASTASparaNP";
+	system "mkdir -p $OUTPUT_PATH/NewFASTASparaNP";
 
-#Directorio donde queremos estacionar los archivos
-my $dir = "DB";
-my $dirDB = "DB";
-my $dirPB = "PasosBioSin";
-my $blastdir = "/opt/ncbi-blast-2.2.28+/bin/";
-my $OUTblast = "$OUTPUT_PATH/blast";
+	#Directorio donde queremos estacionar los archivos
+	my $dir = "DB";
+	my $dirDB = "DB";
+	my $dirPB = "PasosBioSin";
+	#my $blastdir = "/opt/ncbi-blast-2.2.28+/bin/";
+	my $OUTblast = "$OUTPUT_PATH/blast";
 
-#------- Rutas Centrales --------------
-my $viaMet=$VIA_MET;	 ## From globals
-#my $viaMet="ALL_curado.fasta";#evom-0-3ORIG.pl
+	#------- Rutas Centrales --------------
+	my $viaMet=$VIA_MET;	 ## From globals
+	#my $viaMet="ALL_curado.fasta";#evom-0-3ORIG.pl
 
-#my $viaMet="ALL_curado020715.fasta";
-#my $viaMet="tRAPs_EvoMining.fa";
+	#my $viaMet="ALL_curado020715.fasta";
+	#my $viaMet="tRAPs_EvoMining.fa";
 
 
-#-------- BD de Genomas------------------
-# Genomas 
+	#-------- BD de Genomas------------------
+	# Genomas 
 
-my $db ="$genomes\HEADER.fasta";
-#my $db = "losDiez/tenGenomes.fasta"; #diez genomas 250116
+	my $db ="$genomes\HEADER.fasta";
+	#my $db = "losDiez/tenGenomes.fasta"; #diez genomas 250116
 
  ($eval,$score2)=recepcion_de_archivo(); #Iniciar la recepcion del archivo
 
+print "\n\nheaplot Eval $eval, Score $score\n\n";
 
 
 #Array con extensiones de archivos que podemos recibir
@@ -157,8 +158,6 @@ while (<VIAS>){
 
 }
 
-## Total central families is cuantasViasvan
-print CHECK "$cuantasViasvan----$cuentaVia\n";
 #close CHECK;
 #-----------------------------------------------------------------------------------------------
 #---------------------pinta tabla--------------
@@ -494,6 +493,11 @@ foreach my $x (keys %hashCP){
    close LOG;
    close CHECK;
 
+print "\n\n-----------------------------------------------------------------------------\n\n";
+print "\nheatplot.pl Finished!!!\n\n";
+print "Next, run: \n";
+print "perl np_hits_from_cp.pl evalue=0.0001 score=100 Submit=Submit pidfecha=../exchange/ALL_curado.fasta_MiBIG_DB.faa_los17";
+print "\n\n-----------------------------------------------------------------------------\n\n";
 
 close SALE;
 close STDOUT;
@@ -523,7 +527,6 @@ $score1 =~ s!^.*(\\|\/)!!;
 
 
 my $extension_correcta = 1;
-
 
 return $evalue,$score1;
 
