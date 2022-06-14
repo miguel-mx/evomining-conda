@@ -168,6 +168,7 @@ chomp;
 ####weekend# en este caso se tiene que corregir que en pasos anteriores se generaron archivos vacios###
 ####weekend#
 system "ls $OUTPUT_PATH/FASTASparaNP > $OUTPUT_PATH/ls.FASTANP";
+print "\n\nPrepara blast vs NP\n\n";
 
 #print "<h1>Blast  Central Met./NP VS Genome DB...</h1>";
 
@@ -290,7 +291,12 @@ if(!$prev_np){
 		##################weekend#####################
 		## version con todos##
 		####weekend#
-       		$blast=system("/opt/blast/bin/blastp -db NPDB/$np_db.db -query $OUTPUT_PATH/NewFASTASparaNP/$_ -outfmt 6 -num_threads 4 -evalue $eval -out  $OUTPUT_PATH/blast/$_\_ExpandedVsNp.blast") ;#  or die       "EERROOOR:  $?,$!,%d, %s coredump";
+       		$blast=system("blastp -db NPDB/$np_db.db -query $OUTPUT_PATH/NewFASTASparaNP/$_ -outfmt 6 -num_threads 4 -evalue $eval -out $OUTPUT_PATH/blast/$_\_ExpandedVsNp.blast") ;#  or die       "EERROOOR:  $?,$!,%d, %s coredump";
+
+
+print "\n\n blastp -db NPDB/$np_db.db -query $OUTPUT_PATH/NewFASTASparaNP/$_ -outfmt 6 -num_threads 4 -
+evalue $eval -out $OUTPUT_PATH/blast/$_\_ExpandedVsNp.blast\n\n";
+
        		#$blast=`/opt/blast/bin/blastp -db NPDB/$np_db.db -query $OUTPUT_PATH/NewFASTASparaNP/$_ -outfmt 6 -num_threads 4 -evalue $eval -out $OUTPUT_PATH/blast/$_\_ExpandedVsNp.blast`;#" or die "EERROOOR:$?,$!,%d, %s coredump";
 		}#end while externo	
 
@@ -301,9 +307,9 @@ if(!$prev_np){
 
 system "touch $OUTPUT_PATH/prueba3";
 #----------------------------- filtra por score------------------------
-system "ls $OUTPUT_PATH/blast/*_ExpandedVsNp.blast > $OUTPUT_PATH/ls.ExpandedVsNp.blast";
+system "ls $OUTPUT_PATH/blast/*_ExpandedVsNp.blast > $OUTPUT_PATH/blast/ls.ExpandedVsNp.blast";
 
-open (EXPPP, "$OUTPUT_PATH/ls.ExpandedVsNp.blast") or die $!;
+open (EXPPP, "$OUTPUT_PATH/blast/ls.ExpandedVsNp.blast") or die $!;
 while(<EXPPP>){
 chomp;
   open(CUUOUT, ">$_.2")or die $!;
@@ -324,8 +330,8 @@ close EXPPP;
 #----------------------end filtra por score--------------------------
 my @nonRec;
 
-system "ls $OUTPUT_PATH/blast/*_ExpandedVsNp.blast.2 > $OUTPUT_PATH/ls.ExpandedVsNp.blast2";
-open (EXP, "$OUTPUT_PATH/ls.ExpandedVsNp.blast2") or die $!;
+system "ls $OUTPUT_PATH/blast/*_ExpandedVsNp.blast.2 > $OUTPUT_PATH/blast/ls.ExpandedVsNp.blast2";
+open (EXP, "$OUTPUT_PATH/blast/ls.ExpandedVsNp.blast2") or die $!;
 
 if (-e "$OUTPUT_PATH/hash.log"){
 system "rm $OUTPUT_PATH/hash.log";
