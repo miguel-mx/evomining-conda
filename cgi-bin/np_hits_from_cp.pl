@@ -50,7 +50,7 @@ else {
 }
 
 if(!$prev_np){
-`/opt/blast/bin/makeblastdb -in NPDB/$np_db -dbtype prot -out NPDB/$np_db.db`;
+`makeblastdb -in NPDB/$np_db -dbtype prot -out NPDB/$np_db.db`;
 }
 #`/opt/blast/bin/makeblastdb -in NPDB/$np_db -dbtype prot -out NPDB/$np_db.db`;
 ###########33 Reading Natural products metadata if exists file;

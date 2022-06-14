@@ -14,7 +14,7 @@ use CGI::Carp qw(fatalsToBrowser);
 use CGI;
 use globals;
 
-#system "mkdir -p /var/www/html/EvoMining/cgi-bin/blast/seqf/tree";
+system "mkdir -p $OUTPUT_PATH/blast/seqf/tree";
 ## Faltaba OUTPUT_PATH entre newevomining y blast
 ## Lo cree a mano
 
@@ -97,7 +97,7 @@ foreach my $c (@dat){
 		#print("cat $OUTPUT_PATH/blast/$c.central >>$OUTPUT_PATH/blast/$c.concat.fasta <br>");	 
 		system("cat $OUTPUT_PATH/blast/$c.central >>$OUTPUT_PATH/blast/$c.concat.fasta");	 
 		}
-     system "/opt/muscle/muscle -in $OUTPUT_PATH/blast/$c.concat.fasta -out $OUTPUT_PATH/blast/$c.aln";
+     system "muscle -align $OUTPUT_PATH/blast/$c.concat.fasta -output $OUTPUT_PATH/blast/$c.aln";
 
   if($c ne 'Submit' and $c ne '' and  $c ne ' '){ 
       $nam="$OUTPUT_PATH/blast/$c.aln";
@@ -117,13 +117,13 @@ open (LOG, ">$OUTPUT_PATH/entradaAlignnn.log") or die $!;
 #sub NamesBeforeGblocks{  
 #--------------------- Recortando alineamiento-------------
 foreach my $cc (@dat){
- chdir "$OUTPUT_PATH/blast/seqf/";
+# chdir "$OUTPUT_PATH/blast/seqf/";
  #SEQFIRE #system "python seqfire.py -i ../$cc\gap.aln -a 2 -o 2";
  print LOG "aquiiiiii ENTRO\n";
  #------------------------------------------------------------------------------
  #seccion 1 para sustuir nombres largos por cortos para GBLOCKS,# se sustituyen todos los encabezados por precaucion
  	open(FILE, "$OUTPUT_PATH/blast/$cc\gap.aln") or die "$!,$OUTPUT_PATH/blast/$cc\gap.aln";
- 	open(OUT, ">../$cc\gap.aln.out") or die $!;
+ 	open(OUT, ">$OUTPUT_PATH/blast/$cc\gap.aln.out") or die $!;
 	$cont=1;
 	while($line=<FILE>){
     		chomp($line);
@@ -149,8 +149,9 @@ foreach my $cc (@dat){
   ###########weekend###############
  #chdir "$OUTPUT_PATH/blast/";
 my $dir=`pwd`;
-  print LOG "Dir $dir\n/opt/Gblocks_0.91b/Gblocks ../$cc\gap.aln.out -b4=5 -b5=H -b3=10>LOG$cc.GBLOCks\n";
-    system("Gblocks ../$cc\gap.aln.out -b4=5 -b5=H -b3=10>../LOG$cc.GBLOCks");
+  print LOG "Dir $dir\nGblocks_0.91b/Gblocks ../$cc\gap.aln.out -b4=5 -b5=H -b3=10>LOG$cc.GBLOCks\n";
+#  print "\nLine 153\n\n $cc \n\n";
+    system("Gblocks $OUTPUT_PATH/blast/$cc\gap.aln.out -b4=5 -b5=H -b3=10>LOG$cc.GBLOCks");
    # system "sudo Gblocks $cc\gap.aln.out -b4=5 -b5=H -b3=10>LOG$cc.GBLOCks";
 # chdir "$OUTPUT_PATH/blast/seqf";
   #------------------------------------------------------------------------------
@@ -185,7 +186,7 @@ foreach my $cc (@dat){
  if($cc eq 'Submit'){
     next;
  }
- chdir "$OUTPUT_PATH/blast/seqf/";
+# chdir "$OUTPUT_PATH/blast/seqf/";
 ###########weekend############### 
 #system "$reformatPATH/esl-reformat --informat afa stockholm ../$cc\gap.aln.out-gb2 >$cc.stock";
 system "perl converter.pl  $OUTPUT_PATH/blast/$cc\gap.aln.out-gb2 >$cc.stockLOG";
@@ -215,7 +216,7 @@ foreach my $cc (@dat){
  if($cc eq 'Submit'){
     next;
  }
- chdir "$OUTPUT_PATH/blast/seqf/";
+ #chdir "$OUTPUT_PATH/blast/seqf/";
  ###########weekend###############  
 # system "/opt/quicktree/quicktree_1.1/bin/quicktree -in a -out t -boot 10000 $OUTPUT_PATH/blast/$cc\gap.aln.out-gb2.stock > $OUTPUT_PATH/blast/seqf/tree/$cc.tree";
  #print "/opt/fasttree/FastTree $OUTPUT_PATH/blast/$cc\gap.aln.out-gb2 > $OUTPUT_PATH/blast/seqf/tree/$cc.tree <br>";
